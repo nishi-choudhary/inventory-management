@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaPlus } from "react-icons/fa";
 
 function AddItemForm({ onAddItem }) {
   const [newItem, setNewItem] = useState({ name: "", category: "", quantity: 0 });
@@ -17,8 +18,11 @@ function AddItemForm({ onAddItem }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
-      <h2>Add New Item</h2>
+    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded shadow-sm">
+      <h2 className="mb-3">
+        <FaPlus className="me-2" />
+        Add New Item
+      </h2>
       <div className="mb-3">
         <input
           type="text"

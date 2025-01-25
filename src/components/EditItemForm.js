@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaSave, FaTimes } from "react-icons/fa";
 
 function EditItemForm({ editingItem, onUpdateItem, onCancel }) {
   const [updatedItem, setUpdatedItem] = useState(editingItem);
@@ -14,8 +15,11 @@ function EditItemForm({ editingItem, onUpdateItem, onCancel }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
-      <h2>Edit Item</h2>
+    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded shadow-sm">
+      <h2 className="mb-3">
+        <FaSave className="me-2" />
+        Edit Item
+      </h2>
       <div className="mb-3">
         <input
           type="text"
@@ -50,9 +54,11 @@ function EditItemForm({ editingItem, onUpdateItem, onCancel }) {
         />
       </div>
       <button type="submit" className="btn btn-success me-2">
+        <FaSave className="me-1" />
         Update
       </button>
       <button type="button" className="btn btn-secondary" onClick={onCancel}>
+        <FaTimes className="me-1" />
         Cancel
       </button>
     </form>
