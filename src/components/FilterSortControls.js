@@ -6,9 +6,10 @@ function FilterSortControls({
   onCategoryChange,
   sortOrder,
   onSortOrderChange,
+  darkMode,
 }) {
   return (
-    <div className="mb-4 p-4 border rounded shadow-sm">
+    <div className={`mb-4 p-4 border rounded shadow-sm ${darkMode ? "bg-dark text-light" : ""}`}>
       <h3 className="mb-3">
         <FaFilter className="me-2" />
         Filter and Sort
@@ -19,7 +20,7 @@ function FilterSortControls({
         </label>
         <select
           id="categoryFilter"
-          className="form-select"
+          className={`form-select ${darkMode ? "bg-dark text-light" : ""}`}
           value={selectedCategory}
           onChange={(e) => onCategoryChange(e.target.value)}
         >
@@ -29,7 +30,7 @@ function FilterSortControls({
         </select>
       </div>
       <button
-        className="btn btn-secondary"
+        className={`btn ${darkMode ? "btn-outline-light" : "btn-secondary"}`}
         onClick={() => onSortOrderChange(sortOrder === "asc" ? "desc" : "asc")}
       >
         {sortOrder === "asc" ? (

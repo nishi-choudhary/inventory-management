@@ -1,8 +1,14 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaSun, FaMoon, FaFilter, FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
 import AddItemForm from "./components/AddItemForm";
 import EditItemForm from "./components/EditItemForm";
 import InventoryTable from "./components/InventoryTable";
 import FilterSortControls from "./components/FilterSortControls";
+import "./App.css";
 
 function App() {
   const [inventory, setInventory] = useState([
@@ -13,13 +19,20 @@ function App() {
   const [editingItem, setEditingItem] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   const handleAddItem = (newItem) => {
     setInventory([...inventory, { ...newItem, id: inventory.length + 1 }]);
+    toast.success("Item added successfully!");
   };
 
   const handleDeleteItem = (id) => {
     setInventory(inventory.filter((item) => item.id !== id));
+    toast.error("Item deleted successfully!");
   };
 
   const handleUpdateItem = (updatedItem) => {
@@ -29,6 +42,7 @@ function App() {
       )
     );
     setEditingItem(null);
+    toast.success("Item updated successfully!");
   };
 
   const filteredInventory =
@@ -41,27 +55,41 @@ function App() {
   );
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center mb-4">Inventory Management</h1>
-      <AddItemForm onAddItem={handleAddItem} />
-      {editingItem && (
-        <EditItemForm
-          editingItem={editingItem}
-          onUpdateItem={handleUpdateItem}
-          onCancel={() => setEditingItem(null)}
+    <div className={darkMode ? "dark-mode" : "light-mode"}>
+      <div className="container mt-5">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h1 className="text-center mb-0">Inventory Management</h1>
+          <button
+            className="btn btn-outline-secondary"
+            onClick={toggleDarkMode}
+          >
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </button>
+        </div>
+        <AddItemForm onAddItem={handleAddItem} darkMode={darkMode} />
+        {editingItem && (
+          <EditItemForm
+            editingItem={editingItem}
+            onUpdateItem={handleUpdateItem}
+            onCancel={() => setEditingItem(null)}
+            darkMode={darkMode}
+          />
+        )}
+        <FilterSortControls
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          sortOrder={sortOrder}
+          onSortOrderChange={setSortOrder}
+          darkMode={darkMode}
         />
-      )}
-      <FilterSortControls
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-        sortOrder={sortOrder}
-        onSortOrderChange={setSortOrder}
-      />
-      <InventoryTable
-        inventory={sortedInventory}
-        onEditItem={setEditingItem}
-        onDeleteItem={handleDeleteItem}
-      />
+        <InventoryTable
+          inventory={sortedInventory}
+          onEditItem={setEditingItem}
+          onDeleteItem={handleDeleteItem}
+          darkMode={darkMode}
+        />
+        <ToastContainer position="bottom-right" />
+      </div>
     </div>
   );
 }
